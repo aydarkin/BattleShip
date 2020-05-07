@@ -106,20 +106,20 @@
     background-color: black;
 }
 
-.field__fail,
-.field__success {
-    border-radius: 50%;
+.field__ship_destroyed {
+    background-color: black;
 }
 
 .field__fail {
+    border-radius: 50%;
     background-color: gray;
 }
 
-.field__success {
+.field__ship_hit {
     background-color: #e91e63;
 }
 
-.field_rival .field__cell {
+.field_rival .field__cell:hover {
     background-color: #673ab7;
 }
 

@@ -1,3 +1,4 @@
+'use strict';
 class Ship {
     /**
      * 
@@ -121,10 +122,14 @@ class Ship {
 
 
     render(x, y) {
+        if(this.isDestroyed()) {
+            return `<div class="field__cell field__ship_destroyed"></div>`
+        }
+        
         if(x && y){
             for (const hit of this.hits) {
                 if(hit.x == x && hit.y == y){
-                    return `<div class="field__cell field__success"></div>`;
+                    return `<div class="field__cell field__ship_hit"></div>`;
                 }
             }   
         }
