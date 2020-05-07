@@ -4,10 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Морской бой</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/normalize.css">
+    <script src="js/Ship.js"></script>
 </head>
 <body>
-    
+    <div class="game game_process">
+        <h1 class="game__title">Морской бой</h1>
+        <form class="register">
+            <div class="register__description">Для начала игры введите имя</div>
+            <div class="register__param"> 
+                <label for="register__label" class="form-label">Имя</label>
+                <input type="text" id="name" class="register__input register__input_text" maxlength="50" required>
+            </div> 
+            <button class="register__finish">Играть</button>
+        </form>
+        <div class="game__status">Играет Иван</div>
+        <div class="game__fields">
+            <table class="field field_player">
+
+            </table>
+            <table class="field field_rival">
+
+            </table>
+        </div>
+        <button class="game__restart">Начать заново</button>
+    </div>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
