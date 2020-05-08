@@ -1,0 +1,191 @@
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+
+html {
+    background-color: #fafafa;
+}
+
+.game {
+    margin: 10vh auto 0;
+    width: 760px;
+
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 16px;
+}
+
+.game__title {
+    font-weight: 400;
+    font-size: 48px;
+    color: #673ab7;
+}
+
+.game .register {
+    margin: 18px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+
+    font-size: 20px;
+}
+
+.game_process .register {
+    display: none;
+} 
+
+.game .register__description {
+    margin: 0 0 18px;
+}
+
+.game .register__param {
+    margin: 36px 0;
+    font-size: 1.2em;
+}
+
+.game .register__input{
+    width: 200px;
+    font-size: 14px;
+    padding: 8px;
+    border: 2px solid black;
+}
+
+.game .register__finish,
+.game__restart {
+    text-align: center;
+    line-height: 3em;
+    margin: 8px;
+    border: 2px solid #673ab7;
+    background-color: #673ab7;
+    color: white;  
+    -webkit-transition: .3s;  
+    -o-transition: .3s;  
+    transition: .3s;
+    cursor: pointer;
+}
+
+.game .register__finish {
+    width: 200px;
+}
+
+.game .register__finish:hover,
+.game__restart:hover {  
+    border: 2px solid #311b92;
+    background-color: #311b92; 
+}
+
+.game_register .game__fields,
+.game_register .game__status,
+.game_register .game__restart {
+    display: none;
+}
+
+.game__fields {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+
+    margin: 36px 0;
+    width: 100%;
+}
+
+.field{
+    margin: 8px 0;
+    background-color:white;
+    border: 2px solid #673ab7;
+}
+
+.field__header {
+    text-align: center;
+}
+
+.field_step {
+    -webkit-box-shadow: 0 0 0px 5px #673ab7;
+            box-shadow: 0 0 0px 5px #673ab7;
+}
+
+.field__row{
+    background-color: #BBDEFB;
+}
+
+.field__cell {
+    width: 28px;
+    height: 28px;
+    border-radius: 20%;
+    -webkit-transition: .1s;
+    -o-transition: .1s;
+    transition: .1s;
+}
+
+.field__water {
+    background-color: #d3ebff;
+}
+
+.field__ship {
+    background-color: #689f38;
+}
+
+.field__ship_destroyed {
+    background-color: #ad1457;
+}
+
+.field__fail {
+    background-color: #9E9E9E;
+}
+
+.field__ship_hit {
+    background-color: #e91e63;
+}
+
+.field_rival .field__cell:hover {
+    background-color: #673ab7;
+}
+
+.game__restart {
+    margin: 36px 0;
+    width: 256px;
+}
+
+.game__status {
+    margin: 16px 0;
+}
+
+@media screen and (max-height: 720px) {
+    .game {
+        margin: 0 auto;
+    }
+ 
+    .game__restart {
+        margin: 0;
+    }
+}
