@@ -13,16 +13,17 @@ class Field {
      * @param {HTMLTableElement} table 
      * @param {number} size 
      */
-    constructor(table, size) {
+    constructor(table, size, isRival = false) {
         this.size = size;
         this.table = table;
-        
+        this.isRival = isRival;
+
         this.field = new Array(this.size);
         for (let i = 0; i < this.field.length; i++) {
             this.field[i] = new Array(this.size);
         }
 
-        this.ships = [ new Ship(4)];
+        this.ships = [];
         this.clear();
     }
 
@@ -32,7 +33,7 @@ class Field {
                 this.field[i][j] = 0;
             }   
         }
-        
+        this.ships = [];
         this.clearTable();
     }
 
@@ -41,7 +42,7 @@ class Field {
         for (let i = 0; i < this.size; i++) {
             html += '<tr>';
             for (let j = 0; j < this.size; j++) {
-                html += '<td></td>';
+                html += '<td><div class="field__cell field__water"></div></td>';
             }  
             html += '</tr>' ;
         }
@@ -55,19 +56,31 @@ class Field {
      * @param {*} ship 
      */
     setRandomPosition(ship) {
-        const x = Math.trunc(Math.random() * (this.size));
-        const y = Math.trunc(Math.random() * (this.size));
-        const direction = ['horizontal, vertical'][Math.trunc(Math.random() * 10) % 2];
+        const directions = ['horizontal', 'vertical'];
+        let x = 0; 
+        let y = 0; 
+        let directionId = 0;
+        let attempts = 0;
 
-        ship.setPosition(x, y, direction);
-
-        if (this.field[x][y] == 0) {
-            if (this.сheckLocation(ship)) {
-                return;
+        do {
+            attempts++;
+            if(attempts < 50) {
+                x = Math.trunc(Math.random() * (this.size));
+                y = Math.trunc(Math.random() * (this.size));
+                directionId = Math.trunc(Math.random() * 10) % 2;
+            } else {
+                if(directionId >= 1){
+                    directionId = 0;
+                    const cell = this.getNextCell(x, y);
+                    x = cell.x;
+                    y = cell.y;
+                } else {
+                    directionId++;
+                }  
             }
-        }
-        //рекурсивный вызов
-        this.setRandomPosition(ship);
+
+            ship.setPosition(x, y, directions[directionId]);
+        } while (this.field[y][x] != 0 || !this.сheckLocation(ship));
     }
 
     /**
@@ -82,12 +95,12 @@ class Field {
 
         const coords = ship.coordinates();
         for (const c of coords) {
-            if(this.field[c.x][c.y] != 0) {
+            if(this.field[c.y][c.x] != 0) {
                 return false;
             }
         }
-        if (this.checkBounds(ship)) {
-            return true;
+        if (!this.checkBounds(ship)) {
+            return false;
         }
 
         return true;
@@ -162,7 +175,7 @@ class Field {
      */
     makeShot(x, y) {
         if(!this.isShooted(x, y)) {
-            this.ships.forEach((ship) => {
+            for (const ship of this.ships) {
                 if(ship.takeDamage(x,y)) {
                     this.markShot(x, y, true);
                     ship.draw(this.table);
@@ -172,7 +185,7 @@ class Field {
                     }
                     return true;
                 }
-            });
+            }
             this.markShot(x, y, false);
             return true;
         }
@@ -195,25 +208,27 @@ class Field {
     }
 
     /**
-     * Добавление корабля на поле в случайную позицию
-     * @param {Ship} ship 
+     * Добавление корабля заданной размерности на поле в случайную позицию
+     * @param {number} size - размерность корабля
      */
-    addShip(ship) {
-        const index = this.ships.push(ship);
+    addShip(size) {
+        const ship = new Ship(size, this.isRival);
+        this.ships.push(ship) - 1;
         
-        this.setRandomPosition(this.ships[index]);
-        this.markShip(this.ships[index]);
+        this.setRandomPosition(ship);
+        this.markShip(ship);
+        ship.draw(this.table);
     }
 
     /**
      * Имеются ли на поле неуничтоженные корабли
      */
     hasAlive() {
-        this.ships.forEach((ship) => {
+        for (const ship of this.ships) {
             if(!ship.isDestroyed()) {
                 return true;
             }
-        });
+        }
         return false;
     }  
 
@@ -227,8 +242,30 @@ class Field {
             for (let y = bounds.up; y <= bounds.down; y++) {
                 if(this.field[y][x] == 2) {
                     this.field[y][x] = 3;
+                    this.markShot(x, y, false);
                 }       
             }
+        }
+    }
+
+    /**
+     * Получение следующей ячейки от заданной (слева направо сверху вниз)
+     * @param {number} x 
+     * @param {number} y 
+     */
+    getNextCell(x, y) {
+        x++;
+        if (x >= this.size) {
+            x = 0;
+            y++;
+
+            if (y >= this.size) {
+                y = 0;
+            }
+        }
+        return {
+            x: x,
+            y: y,
         }
     }
 }
