@@ -10,8 +10,9 @@
 class Field {
     /**
      * 
-     * @param {HTMLTableElement} table 
-     * @param {number} size 
+     * @param {HTMLTableElement} table - контейнер для визуализации
+     * @param {number} size - размерность
+     * @param {boolean} isRival - является ли полем соперника
      */
     constructor(table, size, isRival = false) {
         this.size = size;
@@ -53,7 +54,7 @@ class Field {
 
     /**
      * Определение координат для корабля
-     * @param {*} ship 
+     * @param {Ship} ship 
      */
     setRandomPosition(ship) {
         const directions = ['horizontal', 'vertical'];
@@ -86,7 +87,7 @@ class Field {
     /**
      * Проверка вмещаемости корабля в поле согласно правилам игры
      * @param {Ship} ship
-     * 
+     * @returns {boolean}
      */
     сheckLocation(ship) {
         if(ship.endX >= this.size || ship.endY >= this.size) {
@@ -140,7 +141,7 @@ class Field {
 
     /**
      * Отображение корабля на поле
-     * @param {*} ship 
+     * @param {Ship} ship 
      */
     markShip(ship) {
         const bounds = this.getBoundsShip(ship);
@@ -234,7 +235,7 @@ class Field {
 
     /**
      * Пометка пустых ячеек вокруг уничтоженного корабля
-     * @param {*} ship 
+     * @param {Ship} ship 
      */
     encircleShip(ship){
         const bounds = this.getBoundsShip(ship);

@@ -70,7 +70,8 @@ class BattleShip {
 
     /**
      * Ход игрока
-     * @param {MouseEvent} event 
+     * @param {number} x 
+     * @param {number} y 
      */
     stepPlayer(x, y) {
         if (this.currentPlayer == 'user') {
@@ -89,7 +90,6 @@ class BattleShip {
     /**
      * Обработчик события нажатия на поле
      * @param {MouseEvent} event 
-     * @param {BattleShip} game
      */
     clickPlayer(event) {
         const ship = event.target;
@@ -167,6 +167,6 @@ class BattleShip {
     }
 
     showWinBot() {
-        this.infoContainer.textContent = this.playerName + " вы проиграли!";
+        this.infoContainer.textContent = this.playerName + ", вы проиграли!";
     }
 }
