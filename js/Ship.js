@@ -3,8 +3,10 @@ class Ship {
     /**
      * 
      * @param {number} size - размерность корабля
+     * @param {boolean} isHidden - будет ли отображать целые части на поле
      */
-    constructor(size) {
+    constructor(size, isHidden = false) {
+        this.isHidden = isHidden;
         this.size = size < 1 ? 1 : size;
         
         this.startX = 0;
@@ -47,12 +49,12 @@ class Ship {
         this.startY = startY;
 
         if (direction == 'horizontal') {
-            this.endX = this.startX + this.type - 1;
-            this.endY = startY;
+            this.endX = this.startX + this.size - 1;
+            this.endY = this.startY;
         }
         if (direction == 'vertical') {
             this.endX = this.startX;
-            this.endY = this.startY + this.type - 1;
+            this.endY = this.startY + this.size - 1;
         }
     }
 
@@ -115,8 +117,9 @@ class Ship {
      * @param {HTMLTableElement} field
      */
     draw(field) {
+        const coordinates = this.coordinates();
         for(const c of coordinates) {
-            field.rows[c.y].cells[c.x].innerHTML = this.render(c.x, c.y);
+            field.rows[c.y].cells[c.x].innerHTML = this.render(c.x, c.y, this.isHidden);
         }
     }
 
@@ -126,13 +129,14 @@ class Ship {
             return `<div class="field__cell field__ship_destroyed"></div>`
         }
         
-        if(x && y){
+        if(x !== undefined && y !== undefined){
             for (const hit of this.hits) {
                 if(hit.x == x && hit.y == y){
                     return `<div class="field__cell field__ship_hit"></div>`;
                 }
             }   
         }
-        return `<div class="field__cell field__ship"></div>`;
+
+        return `<div class="field__cell field__${this.isHidden ? 'water' : 'ship'}"></div>`;
     }
 }
